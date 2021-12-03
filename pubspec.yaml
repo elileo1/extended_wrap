@@ -1,7 +1,7 @@
 name: extended_wrap
 description: package wrap limit row number
 version: 0.0.1
-homepage:
+homepage: https://github.com/elileo1/extended_wrap
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
