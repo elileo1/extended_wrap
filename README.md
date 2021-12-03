@@ -15,7 +15,7 @@ Extended official wrap to build special wrap like limiting row number
 
 ## Features
 
-TODO: add up and expand
+**TODO:** add up and expand
 
 ## Usage
 as official wrap
