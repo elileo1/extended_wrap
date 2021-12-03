@@ -132,7 +132,8 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: Text(showTips),
         style: ButtonStyle(
-            padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+            padding: MaterialStateProperty.all(
+                EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
             backgroundColor: MaterialStateProperty.all(Color(0xfff1f2f4))));
   }
 }

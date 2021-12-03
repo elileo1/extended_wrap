@@ -1,3 +1,7 @@
 ## 0.0.1
 
 * limit row number
+
+## 0.0.2
+
+* fix exception "RenderBox.size accessed beyond the scope of resize"

@@ -1,6 +1,6 @@
 name: extended_wrap
-description: package wrap limit row number
-version: 0.0.1
+description: Extended official wrap to build special wrap like limiting row number
+version: 0.0.2
 homepage: https://github.com/elileo1/extended_wrap
 
 environment:
@@ -14,7 +14,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+#  flutter_lints: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -32,7 +32,8 @@ class LimitWrapParentData extends ContainerBoxParentData<RenderBox> {
 /// The runs themselves are then positioned in the cross axis according to the
 /// [runSpacing] and [runAlignment].runAlignment
 class ExtendedRenderWrap extends RenderBox
-    with ContainerRenderObjectMixin<RenderBox, LimitWrapParentData>,
+    with
+        ContainerRenderObjectMixin<RenderBox, LimitWrapParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, LimitWrapParentData> {
   /// Creates a wrap render object.
   ///
@@ -53,7 +54,7 @@ class ExtendedRenderWrap extends RenderBox
     VerticalDirection verticalDirection = VerticalDirection.down,
     Clip clipBehavior = Clip.none,
     this.limitRowNumber = 1,
-  }) : assert(direction != null),
+  })  : assert(direction != null),
         assert(alignment != null),
         assert(spacing != null),
         assert(runAlignment != null),
@@ -81,10 +82,9 @@ class ExtendedRenderWrap extends RenderBox
   /// children are placed in a new run vertically adjacent to the previous run.
   Axis get direction => _direction;
   Axis _direction;
-  set direction (Axis value) {
+  set direction(Axis value) {
     assert(value != null);
-    if (_direction == value)
-      return;
+    if (_direction == value) return;
     _direction = value;
     markNeedsLayout();
   }
@@ -104,10 +104,9 @@ class ExtendedRenderWrap extends RenderBox
   ///    are placed relative to each other in the cross axis.
   WrapAlignment get alignment => _alignment;
   WrapAlignment _alignment;
-  set alignment (WrapAlignment value) {
+  set alignment(WrapAlignment value) {
     assert(value != null);
-    if (_alignment == value)
-      return;
+    if (_alignment == value) return;
     _alignment = value;
     markNeedsLayout();
   }
@@ -125,10 +124,9 @@ class ExtendedRenderWrap extends RenderBox
   /// Defaults to 0.0.
   double get spacing => _spacing;
   double _spacing;
-  set spacing (double value) {
+  set spacing(double value) {
     assert(value != null);
-    if (_spacing == value)
-      return;
+    if (_spacing == value) return;
     _spacing = value;
     markNeedsLayout();
   }
@@ -149,10 +147,9 @@ class ExtendedRenderWrap extends RenderBox
   ///    are placed relative to each other in the cross axis.
   WrapAlignment get runAlignment => _runAlignment;
   WrapAlignment _runAlignment;
-  set runAlignment (WrapAlignment value) {
+  set runAlignment(WrapAlignment value) {
     assert(value != null);
-    if (_runAlignment == value)
-      return;
+    if (_runAlignment == value) return;
     _runAlignment = value;
     markNeedsLayout();
   }
@@ -169,10 +166,9 @@ class ExtendedRenderWrap extends RenderBox
   /// Defaults to 0.0.
   double get runSpacing => _runSpacing;
   double _runSpacing;
-  set runSpacing (double value) {
+  set runSpacing(double value) {
     assert(value != null);
-    if (_runSpacing == value)
-      return;
+    if (_runSpacing == value) return;
     _runSpacing = value;
     markNeedsLayout();
   }
@@ -194,10 +190,9 @@ class ExtendedRenderWrap extends RenderBox
   ///    other in the cross axis.
   WrapCrossAlignment get crossAxisAlignment => _crossAxisAlignment;
   WrapCrossAlignment _crossAxisAlignment;
-  set crossAxisAlignment (WrapCrossAlignment value) {
+  set crossAxisAlignment(WrapCrossAlignment value) {
     assert(value != null);
-    if (_crossAxisAlignment == value)
-      return;
+    if (_crossAxisAlignment == value) return;
     _crossAxisAlignment = value;
     markNeedsLayout();
   }
@@ -288,40 +283,50 @@ class ExtendedRenderWrap extends RenderBox
       // i.e. there's more than one child
       switch (direction) {
         case Axis.horizontal:
-          assert(textDirection != null, 'Horizontal $runtimeType with multiple children has a null textDirection, so the layout order is undefined.');
+          assert(textDirection != null,
+              'Horizontal $runtimeType with multiple children has a null textDirection, so the layout order is undefined.');
           break;
         case Axis.vertical:
-          assert(verticalDirection != null, 'Vertical $runtimeType with multiple children has a null verticalDirection, so the layout order is undefined.');
+          assert(verticalDirection != null,
+              'Vertical $runtimeType with multiple children has a null verticalDirection, so the layout order is undefined.');
           break;
       }
     }
     if (alignment == WrapAlignment.start || alignment == WrapAlignment.end) {
       switch (direction) {
         case Axis.horizontal:
-          assert(textDirection != null, 'Horizontal $runtimeType with alignment $alignment has a null textDirection, so the alignment cannot be resolved.');
+          assert(textDirection != null,
+              'Horizontal $runtimeType with alignment $alignment has a null textDirection, so the alignment cannot be resolved.');
           break;
         case Axis.vertical:
-          assert(verticalDirection != null, 'Vertical $runtimeType with alignment $alignment has a null verticalDirection, so the alignment cannot be resolved.');
+          assert(verticalDirection != null,
+              'Vertical $runtimeType with alignment $alignment has a null verticalDirection, so the alignment cannot be resolved.');
           break;
       }
     }
-    if (runAlignment == WrapAlignment.start || runAlignment == WrapAlignment.end) {
+    if (runAlignment == WrapAlignment.start ||
+        runAlignment == WrapAlignment.end) {
       switch (direction) {
         case Axis.horizontal:
-          assert(verticalDirection != null, 'Horizontal $runtimeType with runAlignment $runAlignment has a null verticalDirection, so the alignment cannot be resolved.');
+          assert(verticalDirection != null,
+              'Horizontal $runtimeType with runAlignment $runAlignment has a null verticalDirection, so the alignment cannot be resolved.');
           break;
         case Axis.vertical:
-          assert(textDirection != null, 'Vertical $runtimeType with runAlignment $runAlignment has a null textDirection, so the alignment cannot be resolved.');
+          assert(textDirection != null,
+              'Vertical $runtimeType with runAlignment $runAlignment has a null textDirection, so the alignment cannot be resolved.');
           break;
       }
     }
-    if (crossAxisAlignment == WrapCrossAlignment.start || crossAxisAlignment == WrapCrossAlignment.end) {
+    if (crossAxisAlignment == WrapCrossAlignment.start ||
+        crossAxisAlignment == WrapCrossAlignment.end) {
       switch (direction) {
         case Axis.horizontal:
-          assert(verticalDirection != null, 'Horizontal $runtimeType with crossAxisAlignment $crossAxisAlignment has a null verticalDirection, so the alignment cannot be resolved.');
+          assert(verticalDirection != null,
+              'Horizontal $runtimeType with crossAxisAlignment $crossAxisAlignment has a null verticalDirection, so the alignment cannot be resolved.');
           break;
         case Axis.vertical:
-          assert(textDirection != null, 'Vertical $runtimeType with crossAxisAlignment $crossAxisAlignment has a null textDirection, so the alignment cannot be resolved.');
+          assert(textDirection != null,
+              'Vertical $runtimeType with crossAxisAlignment $crossAxisAlignment has a null textDirection, so the alignment cannot be resolved.');
           break;
       }
     }
@@ -375,7 +380,8 @@ class ExtendedRenderWrap extends RenderBox
         double height = 0.0;
         RenderBox child = firstChild;
         while (child != null) {
-          height = math.max(height, child.getMinIntrinsicHeight(double.infinity));
+          height =
+              math.max(height, child.getMinIntrinsicHeight(double.infinity));
           child = childAfter(child);
         }
         return height;
@@ -430,7 +436,8 @@ class ExtendedRenderWrap extends RenderBox
     }
   }
 
-  double _getChildCrossAxisOffset(bool flipCrossAxis, double runCrossAxisExtent, double childCrossAxisExtent) {
+  double _getChildCrossAxisOffset(bool flipCrossAxis, double runCrossAxisExtent,
+      double childCrossAxisExtent) {
     final double freeSpace = runCrossAxisExtent - childCrossAxisExtent;
     switch (crossAxisAlignment) {
       case WrapCrossAlignment.start:
@@ -449,7 +456,8 @@ class ExtendedRenderWrap extends RenderBox
     return _computeDryLayout(constraints);
   }
 
-  Size _computeDryLayout(BoxConstraints constraints, [ChildLayouter layoutChild = ChildLayoutHelper.dryLayoutChild]) {
+  Size _computeDryLayout(BoxConstraints constraints,
+      [ChildLayouter layoutChild = ChildLayoutHelper.dryLayoutChild]) {
     BoxConstraints childConstraints;
     double mainAxisLimit = 0.0;
     switch (direction) {
@@ -474,7 +482,8 @@ class ExtendedRenderWrap extends RenderBox
       final double childMainAxisExtent = _getMainAxisExtent(childSize);
       final double childCrossAxisExtent = _getCrossAxisExtent(childSize);
       // There must be at least one child before we move on to the next run.
-      if (childCount > 0 && runMainAxisExtent + childMainAxisExtent + spacing > mainAxisLimit) {
+      if (childCount > 0 &&
+          runMainAxisExtent + childMainAxisExtent + spacing > mainAxisLimit) {
         mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
         crossAxisExtent += runCrossAxisExtent + runSpacing;
         runMainAxisExtent = 0.0;
@@ -483,8 +492,7 @@ class ExtendedRenderWrap extends RenderBox
       }
       runMainAxisExtent += childMainAxisExtent;
       runCrossAxisExtent = math.max(runCrossAxisExtent, childCrossAxisExtent);
-      if (childCount > 0)
-        runMainAxisExtent += spacing;
+      if (childCount > 0) runMainAxisExtent += spacing;
       childCount += 1;
       child = childAfter(child);
     }
@@ -517,18 +525,14 @@ class ExtendedRenderWrap extends RenderBox
       case Axis.horizontal:
         childConstraints = BoxConstraints(maxWidth: constraints.maxWidth);
         mainAxisLimit = constraints.maxWidth;
-        if (textDirection == TextDirection.rtl)
-          flipMainAxis = true;
-        if (verticalDirection == VerticalDirection.up)
-          flipCrossAxis = true;
+        if (textDirection == TextDirection.rtl) flipMainAxis = true;
+        if (verticalDirection == VerticalDirection.up) flipCrossAxis = true;
         break;
       case Axis.vertical:
         childConstraints = BoxConstraints(maxHeight: constraints.maxHeight);
         mainAxisLimit = constraints.maxHeight;
-        if (verticalDirection == VerticalDirection.up)
-          flipMainAxis = true;
-        if (textDirection == TextDirection.rtl)
-          flipCrossAxis = true;
+        if (verticalDirection == VerticalDirection.up) flipMainAxis = true;
+        if (textDirection == TextDirection.rtl) flipCrossAxis = true;
         break;
     }
     assert(childConstraints != null);
@@ -548,38 +552,40 @@ class ExtendedRenderWrap extends RenderBox
       child.layout(childConstraints, parentUsesSize: true);
       final double childMainAxisExtent = _getMainAxisExtent(child.size);
       final double childCrossAxisExtent = _getCrossAxisExtent(child.size);
-      if (childCount > 0 && runMainAxisExtent + spacing + childMainAxisExtent > mainAxisLimit) {
+      if (childCount > 0 &&
+          runMainAxisExtent + spacing + childMainAxisExtent > mainAxisLimit) {
         mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
         crossAxisExtent += runCrossAxisExtent;
-        if (runMetrics.isNotEmpty)
-          crossAxisExtent += runSpacing;
-        runMetrics.add(_LimitRunMetrics(runMainAxisExtent, runCrossAxisExtent, childCount));
+        if (runMetrics.isNotEmpty) crossAxisExtent += runSpacing;
+        runMetrics.add(_LimitRunMetrics(
+            runMainAxisExtent, runCrossAxisExtent, childCount));
         runMainAxisExtent = 0.0;
         runCrossAxisExtent = 0.0;
         childCount = 0;
 
-        currentRowNumber ++;
+        currentRowNumber++;
 
-        if(currentRowNumber > limitRowNumber) {
-          child.layout(BoxConstraints(maxHeight: 0, maxWidth: 0));
+        if (currentRowNumber > limitRowNumber) {
+          child.layout(BoxConstraints(maxHeight: 0, maxWidth: 0),
+              parentUsesSize: true);
           break;
         }
       }
       runMainAxisExtent += childMainAxisExtent;
-      if (childCount > 0)
-        runMainAxisExtent += spacing;
+      if (childCount > 0) runMainAxisExtent += spacing;
       runCrossAxisExtent = math.max(runCrossAxisExtent, childCrossAxisExtent);
       childCount += 1;
-      final LimitWrapParentData childParentData = child.parentData as LimitWrapParentData;
+      final LimitWrapParentData childParentData =
+          child.parentData as LimitWrapParentData;
       childParentData._runIndex = runMetrics.length;
       child = childParentData.nextSibling;
     }
     if (childCount > 0) {
       mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
       crossAxisExtent += runCrossAxisExtent;
-      if (runMetrics.isNotEmpty)
-        crossAxisExtent += runSpacing;
-      runMetrics.add(_LimitRunMetrics(runMainAxisExtent, runCrossAxisExtent, childCount));
+      if (runMetrics.isNotEmpty) crossAxisExtent += runSpacing;
+      runMetrics.add(
+          _LimitRunMetrics(runMainAxisExtent, runCrossAxisExtent, childCount));
     }
 
     final int runCount = runMetrics.length;
@@ -601,9 +607,11 @@ class ExtendedRenderWrap extends RenderBox
         break;
     }
 
-    _hasVisualOverflow = containerMainAxisExtent < mainAxisExtent || containerCrossAxisExtent < crossAxisExtent;
+    _hasVisualOverflow = containerMainAxisExtent < mainAxisExtent ||
+        containerCrossAxisExtent < crossAxisExtent;
 
-    final double crossAxisFreeSpace = math.max(0.0, containerCrossAxisExtent - crossAxisExtent);
+    final double crossAxisFreeSpace =
+        math.max(0.0, containerCrossAxisExtent - crossAxisExtent);
     double runLeadingSpace = 0.0;
     double runBetweenSpace = 0.0;
     switch (runAlignment) {
@@ -616,7 +624,8 @@ class ExtendedRenderWrap extends RenderBox
         runLeadingSpace = crossAxisFreeSpace / 2.0;
         break;
       case WrapAlignment.spaceBetween:
-        runBetweenSpace = runCount > 1 ? crossAxisFreeSpace / (runCount - 1) : 0.0;
+        runBetweenSpace =
+            runCount > 1 ? crossAxisFreeSpace / (runCount - 1) : 0.0;
         break;
       case WrapAlignment.spaceAround:
         runBetweenSpace = crossAxisFreeSpace / runCount;
@@ -629,7 +638,9 @@ class ExtendedRenderWrap extends RenderBox
     }
 
     runBetweenSpace += runSpacing;
-    double crossAxisOffset = flipCrossAxis ? containerCrossAxisExtent - runLeadingSpace : runLeadingSpace;
+    double crossAxisOffset = flipCrossAxis
+        ? containerCrossAxisExtent - runLeadingSpace
+        : runLeadingSpace;
 
     child = firstChild;
     for (int i = 0; i < runCount; ++i) {
@@ -638,7 +649,8 @@ class ExtendedRenderWrap extends RenderBox
       final double runCrossAxisExtent = metrics.crossAxisExtent;
       final int childCount = metrics.childCount;
 
-      final double mainAxisFreeSpace = math.max(0.0, containerMainAxisExtent - runMainAxisExtent);
+      final double mainAxisFreeSpace =
+          math.max(0.0, containerMainAxisExtent - runMainAxisExtent);
       double childLeadingSpace = 0.0;
       double childBetweenSpace = 0.0;
 
@@ -652,7 +664,8 @@ class ExtendedRenderWrap extends RenderBox
           childLeadingSpace = mainAxisFreeSpace / 2.0;
           break;
         case WrapAlignment.spaceBetween:
-          childBetweenSpace = childCount > 1 ? mainAxisFreeSpace / (childCount - 1) : 0.0;
+          childBetweenSpace =
+              childCount > 1 ? mainAxisFreeSpace / (childCount - 1) : 0.0;
           break;
         case WrapAlignment.spaceAround:
           childBetweenSpace = mainAxisFreeSpace / childCount;
@@ -665,22 +678,26 @@ class ExtendedRenderWrap extends RenderBox
       }
 
       childBetweenSpace += spacing;
-      double childMainPosition = flipMainAxis ? containerMainAxisExtent - childLeadingSpace : childLeadingSpace;
+      double childMainPosition = flipMainAxis
+          ? containerMainAxisExtent - childLeadingSpace
+          : childLeadingSpace;
 
-      if (flipCrossAxis)
-        crossAxisOffset -= runCrossAxisExtent;
+      if (flipCrossAxis) crossAxisOffset -= runCrossAxisExtent;
 
       while (child != null) {
-        final LimitWrapParentData childParentData = child.parentData as LimitWrapParentData;
-        if (childParentData._runIndex != i || child.size == null)
-          break;
+        final LimitWrapParentData childParentData =
+            child.parentData as LimitWrapParentData;
+        if (childParentData._runIndex != i ||
+            child.size == null ||
+            child.size.isEmpty) break;
         final double childMainAxisExtent = _getMainAxisExtent(child.size);
 
         final double childCrossAxisExtent = _getCrossAxisExtent(child.size);
-        final double childCrossAxisOffset = _getChildCrossAxisOffset(flipCrossAxis, runCrossAxisExtent, childCrossAxisExtent);
-        if (flipMainAxis)
-          childMainPosition -= childMainAxisExtent;
-        childParentData.offset = _getOffset(childMainPosition, crossAxisOffset + childCrossAxisOffset);
+        final double childCrossAxisOffset = _getChildCrossAxisOffset(
+            flipCrossAxis, runCrossAxisExtent, childCrossAxisExtent);
+        if (flipMainAxis) childMainPosition -= childMainAxisExtent;
+        childParentData.offset = _getOffset(
+            childMainPosition, crossAxisOffset + childCrossAxisOffset);
         if (flipMainAxis)
           childMainPosition -= childBetweenSpace;
         else
@@ -696,7 +713,7 @@ class ExtendedRenderWrap extends RenderBox
   }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, { @required Offset position }) {
+  bool hitTestChildren(BoxHitTestResult result, {@required Offset position}) {
     return defaultHitTestChildren(result, position: position);
   }
 
@@ -719,7 +736,8 @@ class ExtendedRenderWrap extends RenderBox
     }
   }
 
-  final LayerHandle<ClipRectLayer> _clipRectLayer = LayerHandle<ClipRectLayer>();
+  final LayerHandle<ClipRectLayer> _clipRectLayer =
+      LayerHandle<ClipRectLayer>();
 
   @override
   void dispose() {
@@ -736,7 +754,10 @@ class ExtendedRenderWrap extends RenderBox
     properties.add(EnumProperty<WrapAlignment>('runAlignment', runAlignment));
     properties.add(DoubleProperty('runSpacing', runSpacing));
     properties.add(DoubleProperty('crossAxisAlignment', runSpacing));
-    properties.add(EnumProperty<TextDirection>('textDirection', textDirection, defaultValue: null));
-    properties.add(EnumProperty<VerticalDirection>('verticalDirection', verticalDirection, defaultValue: VerticalDirection.down));
+    properties.add(EnumProperty<TextDirection>('textDirection', textDirection,
+        defaultValue: null));
+    properties.add(EnumProperty<VerticalDirection>(
+        'verticalDirection', verticalDirection,
+        defaultValue: VerticalDirection.down));
   }
 }

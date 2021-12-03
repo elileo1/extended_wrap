@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -189,7 +188,8 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context, ExtendedRenderWrap renderObject) {
+  void updateRenderObject(
+      BuildContext context, ExtendedRenderWrap renderObject) {
     renderObject
       ..direction = direction
       ..alignment = alignment
