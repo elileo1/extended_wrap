@@ -40,8 +40,6 @@ class ExtendedRenderWrap extends RenderBox
   /// By default, the wrap layout is horizontal and both the children and the
   /// runs are aligned to the start.
 
-  final int limitRowNumber;
-
   ExtendedRenderWrap({
     List<RenderBox> children,
     Axis direction = Axis.horizontal,
@@ -53,7 +51,7 @@ class ExtendedRenderWrap extends RenderBox
     TextDirection textDirection,
     VerticalDirection verticalDirection = VerticalDirection.down,
     Clip clipBehavior = Clip.none,
-    this.limitRowNumber = 1,
+    int limitRowNumber = 1,
   })  : assert(direction != null),
         assert(alignment != null),
         assert(spacing != null),
@@ -70,6 +68,7 @@ class ExtendedRenderWrap extends RenderBox
         _crossAxisAlignment = crossAxisAlignment,
         _textDirection = textDirection,
         _verticalDirection = verticalDirection,
+        _limitRowNumber = limitRowNumber,
         _clipBehavior = clipBehavior {
     addAll(children);
   }
@@ -128,6 +127,15 @@ class ExtendedRenderWrap extends RenderBox
     assert(value != null);
     if (_spacing == value) return;
     _spacing = value;
+    markNeedsLayout();
+  }
+
+  int get limitRowNumber => _limitRowNumber;
+  int _limitRowNumber;
+  set limitRowNumber(int value) {
+    assert(value >= 1);
+    if (_limitRowNumber == value) return;
+    _limitRowNumber = value;
     markNeedsLayout();
   }
 
@@ -548,7 +556,15 @@ class ExtendedRenderWrap extends RenderBox
 
     int currentRowNumber = 1;
 
-    while (child != null && currentRowNumber <= limitRowNumber) {
+    while (child != null) {
+      if (currentRowNumber > limitRowNumber) {
+        child.layout(BoxConstraints(maxHeight: 0, maxWidth: 0),
+            parentUsesSize: true);
+        final LimitWrapParentData childParentData =
+            child.parentData as LimitWrapParentData;
+        child = childParentData.nextSibling;
+        continue;
+      }
       child.layout(childConstraints, parentUsesSize: true);
       final double childMainAxisExtent = _getMainAxisExtent(child.size);
       final double childCrossAxisExtent = _getCrossAxisExtent(child.size);
@@ -568,7 +584,10 @@ class ExtendedRenderWrap extends RenderBox
         if (currentRowNumber > limitRowNumber) {
           child.layout(BoxConstraints(maxHeight: 0, maxWidth: 0),
               parentUsesSize: true);
-          break;
+          final LimitWrapParentData childParentData =
+              child.parentData as LimitWrapParentData;
+          child = childParentData.nextSibling;
+          continue;
         }
       }
       runMainAxisExtent += childMainAxisExtent;

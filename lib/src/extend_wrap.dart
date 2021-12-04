@@ -199,6 +199,7 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
       ..crossAxisAlignment = crossAxisAlignment
       ..textDirection = textDirection ?? Directionality.maybeOf(context)
       ..verticalDirection = verticalDirection
+      ..limitRowNumber = limitRowNumber
       ..clipBehavior = clipBehavior;
   }
 
@@ -216,5 +217,6 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
     properties.add(EnumProperty<VerticalDirection>(
         'verticalDirection', verticalDirection,
         defaultValue: VerticalDirection.down));
+    properties.add(IntProperty('limitRowNumber', limitRowNumber));
   }
 }
