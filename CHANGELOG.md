@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * fix exception for item click
+
+## 0.0.4
+
+* support null safety

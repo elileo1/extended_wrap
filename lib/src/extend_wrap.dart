@@ -19,7 +19,7 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
   final int limitRowNumber;
 
   ExtendedWrap({
-    Key key,
+    Key? key,
     this.direction = Axis.horizontal,
     this.alignment = WrapAlignment.start,
     this.spacing = 0.0,
@@ -141,7 +141,7 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
   /// [crossAxisAlignment] is either [WrapCrossAlignment.start] or
   /// [WrapCrossAlignment.end], or there's more than one child, then the
   /// [textDirection] (or the ambient [Directionality]) must not be null.
-  final TextDirection textDirection;
+  final TextDirection? textDirection;
 
   /// Determines the order to lay children out vertically and how to interpret
   /// `start` and `end` in the vertical direction.

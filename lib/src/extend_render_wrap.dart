@@ -41,14 +41,14 @@ class ExtendedRenderWrap extends RenderBox
   /// runs are aligned to the start.
 
   ExtendedRenderWrap({
-    List<RenderBox> children,
+    List<RenderBox>? children,
     Axis direction = Axis.horizontal,
     WrapAlignment alignment = WrapAlignment.start,
     double spacing = 0.0,
     WrapAlignment runAlignment = WrapAlignment.start,
     double runSpacing = 0.0,
     WrapCrossAlignment crossAxisAlignment = WrapCrossAlignment.start,
-    TextDirection textDirection,
+    TextDirection? textDirection,
     VerticalDirection verticalDirection = VerticalDirection.down,
     Clip clipBehavior = Clip.none,
     int limitRowNumber = 1,
@@ -228,9 +228,9 @@ class ExtendedRenderWrap extends RenderBox
   /// [crossAxisAlignment] is either [WrapCrossAlignment.start] or
   /// [WrapCrossAlignment.end], or there's more than one child, then the
   /// [textDirection] must not be null.
-  TextDirection get textDirection => _textDirection;
-  TextDirection _textDirection;
-  set textDirection(TextDirection value) {
+  TextDirection? get textDirection => _textDirection;
+  TextDirection? _textDirection;
+  set textDirection(TextDirection? value) {
     if (_textDirection != value) {
       _textDirection = value;
       markNeedsLayout();
@@ -352,7 +352,7 @@ class ExtendedRenderWrap extends RenderBox
     switch (direction) {
       case Axis.horizontal:
         double width = 0.0;
-        RenderBox child = firstChild;
+        RenderBox? child = firstChild;
         while (child != null) {
           width = math.max(width, child.getMinIntrinsicWidth(double.infinity));
           child = childAfter(child);
@@ -368,7 +368,7 @@ class ExtendedRenderWrap extends RenderBox
     switch (direction) {
       case Axis.horizontal:
         double width = 0.0;
-        RenderBox child = firstChild;
+        RenderBox? child = firstChild;
         while (child != null) {
           width += child.getMaxIntrinsicWidth(double.infinity);
           child = childAfter(child);
@@ -386,7 +386,7 @@ class ExtendedRenderWrap extends RenderBox
         return computeDryLayout(BoxConstraints(maxWidth: width)).height;
       case Axis.vertical:
         double height = 0.0;
-        RenderBox child = firstChild;
+        RenderBox? child = firstChild;
         while (child != null) {
           height =
               math.max(height, child.getMinIntrinsicHeight(double.infinity));
@@ -403,7 +403,7 @@ class ExtendedRenderWrap extends RenderBox
         return computeDryLayout(BoxConstraints(maxWidth: width)).height;
       case Axis.vertical:
         double height = 0.0;
-        RenderBox child = firstChild;
+        RenderBox? child = firstChild;
         while (child != null) {
           height += child.getMaxIntrinsicHeight(double.infinity);
           child = childAfter(child);
@@ -413,7 +413,7 @@ class ExtendedRenderWrap extends RenderBox
   }
 
   @override
-  double computeDistanceToActualBaseline(TextBaseline baseline) {
+  double? computeDistanceToActualBaseline(TextBaseline baseline) {
     return defaultComputeDistanceToHighestActualBaseline(baseline);
   }
 
@@ -466,7 +466,7 @@ class ExtendedRenderWrap extends RenderBox
 
   Size _computeDryLayout(BoxConstraints constraints,
       [ChildLayouter layoutChild = ChildLayoutHelper.dryLayoutChild]) {
-    BoxConstraints childConstraints;
+    late BoxConstraints childConstraints;
     double mainAxisLimit = 0.0;
     switch (direction) {
       case Axis.horizontal:
@@ -484,7 +484,7 @@ class ExtendedRenderWrap extends RenderBox
     double runMainAxisExtent = 0.0;
     double runCrossAxisExtent = 0.0;
     int childCount = 0;
-    RenderBox child = firstChild;
+    RenderBox? child = firstChild;
     while (child != null) {
       final Size childSize = layoutChild(child, childConstraints);
       final double childMainAxisExtent = _getMainAxisExtent(childSize);
@@ -520,12 +520,12 @@ class ExtendedRenderWrap extends RenderBox
     final BoxConstraints constraints = this.constraints;
     assert(_debugHasNecessaryDirections);
     _hasVisualOverflow = false;
-    RenderBox child = firstChild;
+    RenderBox? child = firstChild;
     if (child == null) {
       size = constraints.smallest;
       return;
     }
-    BoxConstraints childConstraints;
+    BoxConstraints? childConstraints;
     double mainAxisLimit = 0.0;
     bool flipMainAxis = false;
     bool flipCrossAxis = false;
@@ -732,7 +732,7 @@ class ExtendedRenderWrap extends RenderBox
   }
 
   @override
-  bool hitTestChildren(BoxHitTestResult result, {@required Offset position}) {
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     return defaultHitTestChildren(result, position: position);
   }
 
