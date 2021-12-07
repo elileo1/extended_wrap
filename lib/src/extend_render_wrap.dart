@@ -51,7 +51,7 @@ class ExtendedRenderWrap extends RenderBox
     TextDirection? textDirection,
     VerticalDirection verticalDirection = VerticalDirection.down,
     Clip clipBehavior = Clip.none,
-    int limitRowNumber = 1,
+    int maxLines = 1,
   })  : assert(direction != null),
         assert(alignment != null),
         assert(spacing != null),
@@ -59,7 +59,7 @@ class ExtendedRenderWrap extends RenderBox
         assert(runSpacing != null),
         assert(crossAxisAlignment != null),
         assert(clipBehavior != null),
-        assert(limitRowNumber >= 1),
+        assert(maxLines >= 1),
         _direction = direction,
         _alignment = alignment,
         _spacing = spacing,
@@ -68,7 +68,7 @@ class ExtendedRenderWrap extends RenderBox
         _crossAxisAlignment = crossAxisAlignment,
         _textDirection = textDirection,
         _verticalDirection = verticalDirection,
-        _limitRowNumber = limitRowNumber,
+        _maxLines = maxLines,
         _clipBehavior = clipBehavior {
     addAll(children);
   }
@@ -130,12 +130,12 @@ class ExtendedRenderWrap extends RenderBox
     markNeedsLayout();
   }
 
-  int get limitRowNumber => _limitRowNumber;
-  int _limitRowNumber;
-  set limitRowNumber(int value) {
+  int get maxLines => _maxLines;
+  int _maxLines;
+  set maxLines(int value) {
     assert(value >= 1);
-    if (_limitRowNumber == value) return;
-    _limitRowNumber = value;
+    if (_maxLines == value) return;
+    _maxLines = value;
     markNeedsLayout();
   }
 
@@ -557,7 +557,7 @@ class ExtendedRenderWrap extends RenderBox
     int currentRowNumber = 1;
 
     while (child != null) {
-      if (currentRowNumber > limitRowNumber) {
+      if (currentRowNumber > maxLines) {
         child.layout(BoxConstraints(maxHeight: 0, maxWidth: 0),
             parentUsesSize: true);
         final LimitWrapParentData childParentData =
@@ -581,7 +581,7 @@ class ExtendedRenderWrap extends RenderBox
 
         currentRowNumber++;
 
-        if (currentRowNumber > limitRowNumber) {
+        if (currentRowNumber > maxLines) {
           child.layout(BoxConstraints(maxHeight: 0, maxWidth: 0),
               parentUsesSize: true);
           final LimitWrapParentData childParentData =

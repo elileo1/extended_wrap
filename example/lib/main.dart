@@ -66,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     "人间富贵花穿搭"
   ];
 
-  int limitRowNumber = math.pow(2, 30);
+  int maxLines = math.pow(2, 30);
 
   @override
   Widget build(BuildContext context) {
@@ -87,8 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             margin: const EdgeInsets.all(20),
             child: ExtendedWrap(
-              key: UniqueKey(),
-              limitRowNumber: limitRowNumber,
+              maxLines: maxLines,
               runSpacing: 12,
               spacing: 12,
               alignment: WrapAlignment.start,
@@ -127,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return TextButton(
         onPressed: () {
           setState(() {
-            limitRowNumber = limit;
+            maxLines = limit;
           });
         },
         child: Text(showTips),

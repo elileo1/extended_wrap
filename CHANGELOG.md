@@ -13,3 +13,7 @@
 ## 0.0.4
 
 * support null safety
+
+## 0.0.5
+
+* change property

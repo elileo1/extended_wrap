@@ -20,6 +20,6 @@ Extended official wrap to build special wrap like limiting row number
 ## Usage
 as official wrap
 
-| parameter      | description | default |
-|:---------------|:------------|:--------|
-| limitRowNumber | row number  | 1       |
+| parameter | description | default |
+|:----------|:------------|:--------|
+| maxLines  | row number  | 1       |

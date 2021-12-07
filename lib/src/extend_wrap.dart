@@ -16,7 +16,7 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
   /// disambiguate `start` or `end` values for the main or cross axis
   /// directions, the [textDirection] must not be null.
 
-  final int limitRowNumber;
+  final int maxLines;
 
   ExtendedWrap({
     Key? key,
@@ -29,10 +29,10 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
     this.textDirection,
     this.verticalDirection = VerticalDirection.down,
     this.clipBehavior = Clip.none,
-    this.limitRowNumber = 1,
+    this.maxLines = 1,
     List<Widget> children = const <Widget>[],
   })  : assert(clipBehavior != null),
-        assert(limitRowNumber >= 1),
+        assert(maxLines >= 1),
         super(key: key, children: children);
 
   /// The direction to use as the main axis.
@@ -184,7 +184,7 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
         textDirection: textDirection ?? Directionality.maybeOf(context),
         verticalDirection: verticalDirection,
         clipBehavior: clipBehavior,
-        limitRowNumber: limitRowNumber);
+        maxLines: maxLines);
   }
 
   @override
@@ -199,7 +199,7 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
       ..crossAxisAlignment = crossAxisAlignment
       ..textDirection = textDirection ?? Directionality.maybeOf(context)
       ..verticalDirection = verticalDirection
-      ..limitRowNumber = limitRowNumber
+      ..maxLines = maxLines
       ..clipBehavior = clipBehavior;
   }
 
@@ -217,6 +217,6 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
     properties.add(EnumProperty<VerticalDirection>(
         'verticalDirection', verticalDirection,
         defaultValue: VerticalDirection.down));
-    properties.add(IntProperty('limitRowNumber', limitRowNumber));
+    properties.add(IntProperty('maxLines', maxLines));
   }
 }
