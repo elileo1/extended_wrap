@@ -17,3 +17,7 @@
 ## 0.0.5
 
 * change property
+
+## 0.0.6
+
+* add stow and expand

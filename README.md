@@ -14,8 +14,7 @@ and the Flutter guide for
 Extended official wrap to build special wrap like limiting row number
 
 ## Features
-
-**TODO:** add up and expand
+optional code
 
 ## Usage
 as official wrap

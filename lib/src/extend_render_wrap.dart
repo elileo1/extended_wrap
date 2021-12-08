@@ -15,6 +15,7 @@ class _LimitRunMetrics {
 /// Parent data for use with [RenderWrap].
 class LimitWrapParentData extends ContainerBoxParentData<RenderBox> {
   int _runIndex = 0;
+  bool _isHide = false;
 }
 
 /// Displays its children in multiple horizontal or vertical runs.
@@ -52,6 +53,7 @@ class ExtendedRenderWrap extends RenderBox
     VerticalDirection verticalDirection = VerticalDirection.down,
     Clip clipBehavior = Clip.none,
     int maxLines = 1,
+    bool hasOverflow = false,
   })  : assert(direction != null),
         assert(alignment != null),
         assert(spacing != null),
@@ -69,6 +71,7 @@ class ExtendedRenderWrap extends RenderBox
         _textDirection = textDirection,
         _verticalDirection = verticalDirection,
         _maxLines = maxLines,
+        _hasOverflow = hasOverflow,
         _clipBehavior = clipBehavior {
     addAll(children);
   }
@@ -136,6 +139,14 @@ class ExtendedRenderWrap extends RenderBox
     assert(value >= 1);
     if (_maxLines == value) return;
     _maxLines = value;
+    markNeedsLayout();
+  }
+
+  bool get hasOverflow => _hasOverflow;
+  bool _hasOverflow;
+  set hasOverflow(bool value) {
+    if (_hasOverflow == value) return;
+    _hasOverflow = value;
     markNeedsLayout();
   }
 
@@ -556,19 +567,83 @@ class ExtendedRenderWrap extends RenderBox
 
     int currentRowNumber = 1;
 
+    bool isNeedHideOverflow = true;
+
     while (child != null) {
-      if (currentRowNumber > maxLines) {
-        child.layout(BoxConstraints(maxHeight: 0, maxWidth: 0),
+      if (currentRowNumber > maxLines && !hasOverflow) {
+        child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
             parentUsesSize: true);
         final LimitWrapParentData childParentData =
             child.parentData as LimitWrapParentData;
         child = childParentData.nextSibling;
         continue;
+      } else {
+        child.layout(childConstraints, parentUsesSize: true);
       }
-      child.layout(childConstraints, parentUsesSize: true);
-      final double childMainAxisExtent = _getMainAxisExtent(child.size);
-      final double childCrossAxisExtent = _getCrossAxisExtent(child.size);
-      if (childCount > 0 &&
+
+      double childMainAxisExtent = _getMainAxisExtent(child.size);
+      double childCrossAxisExtent = _getCrossAxisExtent(child.size);
+
+      final LimitWrapParentData childParentData =
+          child.parentData as LimitWrapParentData;
+      childParentData._isHide = false;
+
+      bool needCalculateSpace = true;
+
+      if (hasOverflow) {
+        lastChild!.layout(childConstraints, parentUsesSize: true);
+        final double overflowMainAxisExtent =
+            _getMainAxisExtent(lastChild!.size);
+        if (isNeedHideOverflow &&
+            currentRowNumber == 1 &&
+            childParentData.nextSibling == null) {
+          lastChild!.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
+              parentUsesSize: true);
+        }
+
+        if (currentRowNumber > maxLines &&
+            childParentData.nextSibling != null) {
+          needCalculateSpace = false;
+          isNeedHideOverflow = false;
+          childParentData._isHide = true;
+          child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
+              parentUsesSize: true);
+          childMainAxisExtent = _getMainAxisExtent(child.size);
+          childCrossAxisExtent = _getCrossAxisExtent(child.size);
+        }
+
+        if (childCount > 0 &&
+            runMainAxisExtent +
+                    spacing * 2 +
+                    childMainAxisExtent +
+                    overflowMainAxisExtent >
+                mainAxisLimit) {
+          if (crossAxisExtent + runCrossAxisExtent + childCrossAxisExtent >
+              (childCrossAxisExtent * maxLines + spacing * (maxLines - 1))) {
+            if (childParentData.nextSibling != null) {
+              needCalculateSpace = false;
+              isNeedHideOverflow = false;
+              childParentData._isHide = true;
+              child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
+                  parentUsesSize: true);
+              childMainAxisExtent = _getMainAxisExtent(child.size);
+              childCrossAxisExtent = _getCrossAxisExtent(child.size);
+            }
+          }
+          if (runMainAxisExtent + spacing + childMainAxisExtent >
+              mainAxisLimit) {
+            mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
+            crossAxisExtent += runCrossAxisExtent;
+            if (runMetrics.isNotEmpty) crossAxisExtent += runSpacing;
+            runMetrics.add(_LimitRunMetrics(
+                runMainAxisExtent, runCrossAxisExtent, childCount));
+            runMainAxisExtent = 0.0;
+            runCrossAxisExtent = 0.0;
+            childCount = 0;
+            currentRowNumber++;
+          }
+        }
+      } else if (childCount > 0 &&
           runMainAxisExtent + spacing + childMainAxisExtent > mainAxisLimit) {
         mainAxisExtent = math.max(mainAxisExtent, runMainAxisExtent);
         crossAxisExtent += runCrossAxisExtent;
@@ -578,11 +653,10 @@ class ExtendedRenderWrap extends RenderBox
         runMainAxisExtent = 0.0;
         runCrossAxisExtent = 0.0;
         childCount = 0;
-
         currentRowNumber++;
 
         if (currentRowNumber > maxLines) {
-          child.layout(BoxConstraints(maxHeight: 0, maxWidth: 0),
+          child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
               parentUsesSize: true);
           final LimitWrapParentData childParentData =
               child.parentData as LimitWrapParentData;
@@ -591,11 +665,10 @@ class ExtendedRenderWrap extends RenderBox
         }
       }
       runMainAxisExtent += childMainAxisExtent;
-      if (childCount > 0) runMainAxisExtent += spacing;
+      if (childCount > 0 && needCalculateSpace) runMainAxisExtent += spacing;
       runCrossAxisExtent = math.max(runCrossAxisExtent, childCrossAxisExtent);
       childCount += 1;
-      final LimitWrapParentData childParentData =
-          child.parentData as LimitWrapParentData;
+
       childParentData._runIndex = runMetrics.length;
       child = childParentData.nextSibling;
     }
@@ -706,9 +779,7 @@ class ExtendedRenderWrap extends RenderBox
       while (child != null) {
         final LimitWrapParentData childParentData =
             child.parentData as LimitWrapParentData;
-        if (childParentData._runIndex != i ||
-            child.size == null ||
-            child.size.isEmpty) break;
+        if (childParentData._runIndex != i) break;
         final double childMainAxisExtent = _getMainAxisExtent(child.size);
 
         final double childCrossAxisExtent = _getCrossAxisExtent(child.size);
@@ -720,7 +791,8 @@ class ExtendedRenderWrap extends RenderBox
         if (flipMainAxis)
           childMainPosition -= childBetweenSpace;
         else
-          childMainPosition += childMainAxisExtent + childBetweenSpace;
+          childMainPosition += childMainAxisExtent +
+              (childParentData._isHide ? 0 : childBetweenSpace);
         child = childParentData.nextSibling;
       }
 

@@ -66,7 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
     "人间富贵花穿搭"
   ];
 
-  int maxLines = math.pow(2, 30);
+  int maxLines = 2;
+  bool isExpand = false;
+
+  int noArrowMaxLines = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -84,26 +87,29 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
+          _titleView("带展开收缩Demo"),
           Container(
+            alignment: Alignment.topLeft,
             margin: const EdgeInsets.all(20),
             child: ExtendedWrap(
               maxLines: maxLines,
               runSpacing: 12,
               spacing: 12,
               alignment: WrapAlignment.start,
-              children: resultList
-                  .map((e) => Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 15),
-                        height: 30,
-                        decoration: BoxDecoration(
-                            color: Color(0xfff1f2f4),
-                            borderRadius: BorderRadius.all(Radius.circular(3))),
-                        child: Text(e,
-                            style: TextStyle(
-                                fontSize: 14, color: Color(0xff505051))),
-                      ))
-                  .toList(),
+              children: resultList.map((e) => _itemView(e)).toList(),
+              overflowWidget: _expandButton(),
+            ),
+          ),
+          _titleView("不带展开收缩Demo"),
+          Container(
+            alignment: Alignment.topLeft,
+            margin: const EdgeInsets.all(20),
+            child: ExtendedWrap(
+              maxLines: noArrowMaxLines,
+              runSpacing: 12,
+              spacing: 12,
+              alignment: WrapAlignment.start,
+              children: resultList.map((e) => _itemView(e)).toList(),
             ),
           ),
           _buildButton(1),
@@ -112,6 +118,61 @@ class _MyHomePageState extends State<MyHomePage> {
           _buildButton(-1),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  _titleView(String text) {
+    return Container(
+      height: 40,
+      padding: EdgeInsets.only(left: 30),
+      color: Color(0xffffefe9),
+      alignment: Alignment.centerLeft,
+      child: Text(text,
+          style: TextStyle(
+              color: Colors.red, fontWeight: FontWeight.bold, fontSize: 16)),
+    );
+  }
+
+  Widget _itemView(String text) {
+    return GestureDetector(
+      onTap: () {
+        print("$text is click...");
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+        height: 30,
+        decoration: BoxDecoration(
+            color: Color(0xfff1f2f4),
+            borderRadius: BorderRadius.all(Radius.circular(3))),
+        child: Text(text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 14, color: Color(0xff505051))),
+      ),
+    );
+  }
+
+  _expandButton() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isExpand = !isExpand;
+          maxLines = (isExpand ? 8 : 2);
+        });
+      },
+      child: Container(
+        height: 30,
+        width: 30,
+        decoration: BoxDecoration(
+            color: Color(0xfff1f2f4),
+            borderRadius: BorderRadius.all(Radius.circular(15))),
+        child: Image.asset(
+            isExpand
+                ? "assets/icon_param_arrow_up.png"
+                : "assets/icon_param_arrow_down.png",
+            width: 24,
+            height: 24),
+      ),
     );
   }
 
@@ -126,7 +187,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return TextButton(
         onPressed: () {
           setState(() {
-            maxLines = limit;
+            noArrowMaxLines = limit;
           });
         },
         child: Text(showTips),

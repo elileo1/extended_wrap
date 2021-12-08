@@ -18,6 +18,8 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
 
   final int maxLines;
 
+  final Widget? overflowWidget;
+
   ExtendedWrap({
     Key? key,
     this.direction = Axis.horizontal,
@@ -30,10 +32,14 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
     this.verticalDirection = VerticalDirection.down,
     this.clipBehavior = Clip.none,
     this.maxLines = 1,
+    this.overflowWidget,
     List<Widget> children = const <Widget>[],
   })  : assert(clipBehavior != null),
         assert(maxLines >= 1),
-        super(key: key, children: children);
+        super(key: key, children: [
+          ...children,
+          if (overflowWidget != null) overflowWidget
+        ]);
 
   /// The direction to use as the main axis.
   ///
@@ -184,7 +190,8 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
         textDirection: textDirection ?? Directionality.maybeOf(context),
         verticalDirection: verticalDirection,
         clipBehavior: clipBehavior,
-        maxLines: maxLines);
+        maxLines: maxLines,
+        hasOverflow: (overflowWidget != null));
   }
 
   @override
@@ -200,6 +207,7 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
       ..textDirection = textDirection ?? Directionality.maybeOf(context)
       ..verticalDirection = verticalDirection
       ..maxLines = maxLines
+      ..hasOverflow = (overflowWidget != null)
       ..clipBehavior = clipBehavior;
   }
 
