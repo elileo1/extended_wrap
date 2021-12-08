@@ -21,3 +21,7 @@
 ## 0.0.6
 
 * add stow and expand
+
+## 0.0.7
+
+* update doc
