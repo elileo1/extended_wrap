@@ -25,3 +25,7 @@
 ## 0.0.7
 
 * update doc
+
+## 0.0.8
+
+* fix warnings
