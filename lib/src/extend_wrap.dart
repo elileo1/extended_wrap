@@ -34,8 +34,7 @@ class ExtendedWrap extends MultiChildRenderObjectWidget {
     this.maxLines = 1,
     this.overflowWidget,
     List<Widget> children = const <Widget>[],
-  })  : assert(clipBehavior != null),
-        assert(maxLines >= 1),
+  })  : assert(maxLines >= 1),
         super(key: key, children: [
           ...children,
           if (overflowWidget != null) overflowWidget

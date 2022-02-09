@@ -33,3 +33,7 @@
 ## 0.0.9
 
 * fix warnings
+
+## 0.1.0
+
+* fix warnings
