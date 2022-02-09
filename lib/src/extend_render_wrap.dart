@@ -286,6 +286,8 @@ class ExtendedRenderWrap extends RenderBox
           assert(textDirection != null,
               'Horizontal $runtimeType with multiple children has a null textDirection, so the layout order is undefined.');
           break;
+        case Axis.vertical:
+          break;
       }
     }
     if (alignment == WrapAlignment.start || alignment == WrapAlignment.end) {
@@ -294,12 +296,15 @@ class ExtendedRenderWrap extends RenderBox
           assert(textDirection != null,
               'Horizontal $runtimeType with alignment $alignment has a null textDirection, so the alignment cannot be resolved.');
           break;
+        case Axis.vertical:
+          break;
       }
     }
     if (runAlignment == WrapAlignment.start ||
         runAlignment == WrapAlignment.end) {
       switch (direction) {
         case Axis.horizontal:
+          break;
         case Axis.vertical:
           assert(textDirection != null,
               'Vertical $runtimeType with runAlignment $runAlignment has a null textDirection, so the alignment cannot be resolved.');
@@ -309,6 +314,8 @@ class ExtendedRenderWrap extends RenderBox
     if (crossAxisAlignment == WrapCrossAlignment.start ||
         crossAxisAlignment == WrapCrossAlignment.end) {
       switch (direction) {
+        case Axis.horizontal:
+          break;
         case Axis.vertical:
           assert(textDirection != null,
               'Vertical $runtimeType with crossAxisAlignment $crossAxisAlignment has a null textDirection, so the alignment cannot be resolved.');

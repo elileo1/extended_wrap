@@ -29,3 +29,7 @@
 ## 0.0.8
 
 * fix warnings
+
+## 0.0.9
+
+* fix warnings
