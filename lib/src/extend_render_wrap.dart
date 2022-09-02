@@ -599,6 +599,8 @@ class ExtendedRenderWrap extends RenderBox
                   parentUsesSize: true);
               childMainAxisExtent = _getMainAxisExtent(child.size);
               childCrossAxisExtent = _getCrossAxisExtent(child.size);
+
+              currentRowNumber++;
             }
           }
           if (runMainAxisExtent + spacing + childMainAxisExtent >
