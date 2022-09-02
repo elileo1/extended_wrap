@@ -37,3 +37,7 @@
 ## 0.1.0
 
 * fix warnings
+
+## 0.1.1
+
+* fix data display confusion
