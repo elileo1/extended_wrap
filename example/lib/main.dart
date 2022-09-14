@@ -66,10 +66,18 @@ class _MyHomePageState extends State<MyHomePage> {
     "人间富贵花穿搭"
   ];
 
-  int maxLines = 2;
+  int minLines;
+  int maxLines;
   bool isExpand = false;
 
   int noArrowMaxLines = 2;
+
+  @override
+  void initState() {
+    super.initState();
+    minLines = 2; // 首次赋值必须跟maxLines相等， 解决有overflowWidget 隐藏与展开问题
+    maxLines = minLines;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
             margin: const EdgeInsets.all(20),
             child: ExtendedWrap(
               maxLines: maxLines,
+              minLines: minLines,
               runSpacing: 12,
               spacing: 12,
               alignment: WrapAlignment.start,
@@ -157,7 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
       onTap: () {
         setState(() {
           isExpand = !isExpand;
-          maxLines = (isExpand ? 8 : 2);
+          maxLines = (isExpand ? 8 : minLines);
         });
       },
       child: Container(

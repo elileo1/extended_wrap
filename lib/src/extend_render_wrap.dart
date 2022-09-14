@@ -52,6 +52,7 @@ class ExtendedRenderWrap extends RenderBox
     VerticalDirection verticalDirection = VerticalDirection.down,
     Clip clipBehavior = Clip.none,
     int maxLines = 1,
+    int minLines = 1,
     bool hasOverflow = false,
   })  : assert(maxLines >= 1),
         _direction = direction,
@@ -63,6 +64,7 @@ class ExtendedRenderWrap extends RenderBox
         _textDirection = textDirection,
         _verticalDirection = verticalDirection,
         _maxLines = maxLines,
+        _minLines = minLines,
         _hasOverflow = hasOverflow,
         _clipBehavior = clipBehavior {
     addAll(children);
@@ -128,6 +130,16 @@ class ExtendedRenderWrap extends RenderBox
     assert(value >= 1);
     if (_maxLines == value) return;
     _maxLines = value;
+    markNeedsLayout();
+  }
+
+  int get minLines => _minLines;
+  int _minLines;
+
+  set minLines(int value) {
+    assert(value >= 1);
+    if (_minLines == value) return;
+    _minLines = value;
     markNeedsLayout();
   }
 
@@ -538,7 +550,7 @@ class ExtendedRenderWrap extends RenderBox
 
     int currentRowNumber = 1;
 
-    bool isNeedHideOverflow = true;
+    bool isNeedHideOverflow = false;
 
     while (child != null) {
       if (currentRowNumber > maxLines && !hasOverflow) {
@@ -565,17 +577,18 @@ class ExtendedRenderWrap extends RenderBox
         lastChild!.layout(childConstraints, parentUsesSize: true);
         final double overflowMainAxisExtent =
             _getMainAxisExtent(lastChild!.size);
-        if (isNeedHideOverflow &&
-            currentRowNumber == 1 &&
+        if ((isNeedHideOverflow || currentRowNumber == 1) &&
+            minLines == maxLines &&
             childParentData.nextSibling == null) {
           lastChild!.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
               parentUsesSize: true);
+          child = null;
+          continue;
         }
 
         if (currentRowNumber > maxLines &&
             childParentData.nextSibling != null) {
           needCalculateSpace = false;
-          isNeedHideOverflow = false;
           childParentData._isHide = true;
           child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
               parentUsesSize: true);
@@ -593,10 +606,15 @@ class ExtendedRenderWrap extends RenderBox
               (childCrossAxisExtent * maxLines + spacing * (maxLines - 1))) {
             if (childParentData.nextSibling != null) {
               needCalculateSpace = false;
-              isNeedHideOverflow = false;
-              childParentData._isHide = true;
-              child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
-                  parentUsesSize: true);
+              if (childParentData.nextSibling == lastChild &&
+                  runMainAxisExtent + spacing + childMainAxisExtent <=
+                      mainAxisLimit) {
+                isNeedHideOverflow = true;
+              } else {
+                childParentData._isHide = true;
+                child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
+                    parentUsesSize: true);
+              }
               childMainAxisExtent = _getMainAxisExtent(child.size);
               childCrossAxisExtent = _getCrossAxisExtent(child.size);
 
