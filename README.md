@@ -19,7 +19,8 @@ optional code
 ## Usage
 as official wrap
 
-| parameter      | description     | default |
-|:---------------|:----------------|:--------|
-| maxLines       | row number      | 1       |
-| overflowWidget | stow and expand | -       |
+| parameter      | description                        | default |
+|:---------------|:-----------------------------------|:--------|
+| maxLines       | row number                         | 1       |
+| minLines       | pack up state must equals maxLines | 1       |
+| overflowWidget | stow and expand                    | -       |

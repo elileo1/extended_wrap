@@ -41,3 +41,7 @@
 ## 0.1.1
 
 * fix data display confusion
+
+## 0.1.2
+
+* fix bug for overflowWidget
