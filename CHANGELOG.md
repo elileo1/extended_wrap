@@ -45,3 +45,7 @@
 ## 0.1.2
 
 * fix bug for overflowWidget
+
+## 0.1.3
+
+* fix bug for overflowWidget(issue 4)
