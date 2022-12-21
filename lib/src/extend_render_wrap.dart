@@ -78,6 +78,7 @@ class ExtendedRenderWrap extends RenderBox
   /// children are placed in a new run vertically adjacent to the previous run.
   Axis get direction => _direction;
   Axis _direction;
+
   set direction(Axis value) {
     if (_direction == value) return;
     _direction = value;
@@ -99,6 +100,7 @@ class ExtendedRenderWrap extends RenderBox
   ///    are placed relative to each other in the cross axis.
   WrapAlignment get alignment => _alignment;
   WrapAlignment _alignment;
+
   set alignment(WrapAlignment value) {
     if (_alignment == value) return;
     _alignment = value;
@@ -118,6 +120,7 @@ class ExtendedRenderWrap extends RenderBox
   /// Defaults to 0.0.
   double get spacing => _spacing;
   double _spacing;
+
   set spacing(double value) {
     if (_spacing == value) return;
     _spacing = value;
@@ -126,6 +129,7 @@ class ExtendedRenderWrap extends RenderBox
 
   int get maxLines => _maxLines;
   int _maxLines;
+
   set maxLines(int value) {
     assert(value >= 1);
     if (_maxLines == value) return;
@@ -145,6 +149,7 @@ class ExtendedRenderWrap extends RenderBox
 
   bool get hasOverflow => _hasOverflow;
   bool _hasOverflow;
+
   set hasOverflow(bool value) {
     if (_hasOverflow == value) return;
     _hasOverflow = value;
@@ -167,6 +172,7 @@ class ExtendedRenderWrap extends RenderBox
   ///    are placed relative to each other in the cross axis.
   WrapAlignment get runAlignment => _runAlignment;
   WrapAlignment _runAlignment;
+
   set runAlignment(WrapAlignment value) {
     if (_runAlignment == value) return;
     _runAlignment = value;
@@ -185,6 +191,7 @@ class ExtendedRenderWrap extends RenderBox
   /// Defaults to 0.0.
   double get runSpacing => _runSpacing;
   double _runSpacing;
+
   set runSpacing(double value) {
     if (_runSpacing == value) return;
     _runSpacing = value;
@@ -208,6 +215,7 @@ class ExtendedRenderWrap extends RenderBox
   ///    other in the cross axis.
   WrapCrossAlignment get crossAxisAlignment => _crossAxisAlignment;
   WrapCrossAlignment _crossAxisAlignment;
+
   set crossAxisAlignment(WrapCrossAlignment value) {
     if (_crossAxisAlignment == value) return;
     _crossAxisAlignment = value;
@@ -239,6 +247,7 @@ class ExtendedRenderWrap extends RenderBox
   /// [textDirection] must not be null.
   TextDirection? get textDirection => _textDirection;
   TextDirection? _textDirection;
+
   set textDirection(TextDirection? value) {
     if (_textDirection != value) {
       _textDirection = value;
@@ -270,6 +279,7 @@ class ExtendedRenderWrap extends RenderBox
   /// [verticalDirection] must not be null.
   VerticalDirection get verticalDirection => _verticalDirection;
   VerticalDirection _verticalDirection;
+
   set verticalDirection(VerticalDirection value) {
     if (_verticalDirection != value) {
       _verticalDirection = value;
@@ -282,6 +292,7 @@ class ExtendedRenderWrap extends RenderBox
   /// Defaults to [Clip.none], and must not be null.
   Clip get clipBehavior => _clipBehavior;
   Clip _clipBehavior = Clip.none;
+
   set clipBehavior(Clip value) {
     if (value != _clipBehavior) {
       _clipBehavior = value;
@@ -633,6 +644,11 @@ class ExtendedRenderWrap extends RenderBox
             childCount = 0;
             currentRowNumber++;
           }
+        } else if (childParentData.nextSibling == null &&
+            currentRowNumber <= maxLines && maxLines == minLines) {
+          childParentData._isHide = true;
+          child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
+              parentUsesSize: true);
         }
       } else if (childCount > 0 &&
           runMainAxisExtent + spacing + childMainAxisExtent > mainAxisLimit) {
