@@ -53,3 +53,6 @@
 ## 0.1.4
 
 * fix bug for overflowWidget(issue 4)
+
+## 0.1.5
+* format code
