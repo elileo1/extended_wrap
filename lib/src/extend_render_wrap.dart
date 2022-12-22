@@ -630,13 +630,14 @@ class ExtendedRenderWrap extends RenderBox
               childCrossAxisExtent = _getCrossAxisExtent(child.size);
 
               currentRowNumber++;
-            }else if (currentRowNumber <= maxLines && maxLines == minLines) {
+            } else if (currentRowNumber <= maxLines && maxLines == minLines) {
               childParentData._isHide = true;
               child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
                   parentUsesSize: true);
             }
-          }else if (childParentData.nextSibling == null &&
-              currentRowNumber <= maxLines && maxLines == minLines) {
+          } else if (childParentData.nextSibling == null &&
+              currentRowNumber <= maxLines &&
+              maxLines == minLines) {
             childParentData._isHide = true;
             child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
                 parentUsesSize: true);
@@ -654,7 +655,8 @@ class ExtendedRenderWrap extends RenderBox
             currentRowNumber++;
           }
         } else if (childParentData.nextSibling == null &&
-            currentRowNumber <= maxLines && maxLines == minLines) {
+            currentRowNumber <= maxLines &&
+            maxLines == minLines) {
           childParentData._isHide = true;
           child.layout(BoxConstraints(maxWidth: 0, maxHeight: 0),
               parentUsesSize: true);
